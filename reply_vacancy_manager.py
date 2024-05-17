@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 
 NOT_RELEVANT_VACANCY_TEXT = "⚠️ The vacancy has significantly higher requirements for work experience than indicated in your profile."
 
-COVER_LETTER = "Hi,\n\n pls check my attached CV and Portfolio (portfolio-page-alpha-black.vercel.app)\n\nthank you and have a great day\n\nwith bstgds\n\nY. Kolbaiev"
+COVER_LETTER = "Hi,\n\npls check my attached CV and Portfolio portfolio-page-alpha-black.vercel.app\n\nthank you and have a great day\n\nwith bstgds\n\nY. Kolbaiev"
 
 
 class VacancyManager:
@@ -16,6 +16,8 @@ class VacancyManager:
         self.yesterday_vacancies = self.get_vacancies()
 
     def get_vacancies(self):
+        print(f"Getting vacancies for {self.category}")
+
         self.driver.get(f"https://jobs.dou.ua/vacancies/?category={self.category}")
 
         sleep(3)
@@ -62,9 +64,7 @@ class VacancyManager:
 
         sleep(3)
 
-        print("All vacancies processed successfully")
-
-        self.driver.quit()
+        print(f"All ${self.category} vacancies processed successfully")
 
     def vacancy_not_relevant(self):
         not_relevant_vacancy = self.driver.find_element(
@@ -95,7 +95,7 @@ class VacancyManager:
         sleep(2)
 
         file_input = self.driver.find_element(By.XPATH, '//*[@id="reply_file"]')
-        file_input.send_keys("D:\PYTHON\CODE\DAY102DOU_APPLICATION_BOT\data\C_V.pdf")
+        file_input.send_keys("D:/PYTHON/CODE/DAY102DOU_APPLICATION_BOT/data/C_V.pdf")
 
         sleep(2)
 

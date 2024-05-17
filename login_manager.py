@@ -1,14 +1,19 @@
 import os
+from dotenv import load_dotenv
 from time import sleep
 from selenium.webdriver.common.by import By
 
-ACCOUNT_EMAIL = os.environ.get("ACCOUNT_EMAIL")
-ACCOUNT_PASSWORD = os.environ.get("ACCOUNT_PASSWORD")
+load_dotenv()
+
+account_email = os.environ.get("ACCOUNT_EMAIL")
+account_password = os.environ.get("ACCOUNT_PASSWORD")
 
 
 class LoginManager:
     def __init__(self, driver):
         self.driver = driver
+        self.account_email = os.environ.get("ACCOUNT_EMAIL")
+        self.account_password = os.environ.get("ACCOUNT_PASSWORD")
 
     def login(self):
         self.driver.get("https://dou.ua")
@@ -31,7 +36,7 @@ class LoginManager:
             By.XPATH,
             '//*[@id="_loginDialog"]/div[2]/div[2]/div[1]/div/div[1]/div[2]/div[2]/div/input',
         )
-        email_input.send_keys(ACCOUNT_EMAIL)
+        email_input.send_keys(account_email)
 
         sleep(2)
 
@@ -40,7 +45,7 @@ class LoginManager:
             '//*[@id="_loginDialog"]/div[2]/div[2]/div[1]/div/div[1]/div[3]/div[2]/div[1]/input',
         )
 
-        password_input.send_keys(ACCOUNT_PASSWORD)
+        password_input.send_keys(account_password)
 
         sleep(2)
 

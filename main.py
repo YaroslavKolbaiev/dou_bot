@@ -19,3 +19,5 @@ back_end.vacancy_manager()
 python = VacancyManager(driver=driver, category="Python")
 
 python.vacancy_manager()
+
+driver.quit()
