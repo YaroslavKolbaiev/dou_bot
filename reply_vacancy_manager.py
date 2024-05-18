@@ -26,6 +26,7 @@ class VacancyManager:
             "%d %B"
         )
         vacancies = self.driver.find_elements(By.CSS_SELECTOR, ".l-vacancy .date")
+
         yesterday_vacancies = []
 
         for vacancy in vacancies:
@@ -38,6 +39,10 @@ class VacancyManager:
         return yesterday_vacancies
 
     def vacancy_manager(self):
+        if not self.yesterday_vacancies:
+            print(f"No vacancies for {self.category} found")
+            return
+
         for vacancy in self.yesterday_vacancies:
             sibling = vacancy.find_element(By.XPATH, "./following-sibling::div")
             link = sibling.find_element(By.TAG_NAME, "a")
@@ -115,16 +120,24 @@ class VacancyManager:
         self.driver.switch_to.window(self.driver.window_handles[0])
 
     def vacancy_with_external_link(self):
-        external_link = self.driver.find_element(
-            By.XPATH,
-            '//*[@id="container"]/div[4]/div/div[2]/div[1]/div/div[4]/div[4]/a',
-        )
+        try:
+            external_link = self.driver.find_element(
+                By.CSS_SELECTOR, ".replied-external"
+            )
 
-        print(
-            f"Apply button leeds to external website. Link: {external_link.get_attribute('href')}"
-        )
-        self.driver.close()
+            print(
+                f"Apply button leeds to external website. Link: {external_link.get_attribute('href')}"
+            )
+            self.driver.close()
 
-        sleep(1)
+            sleep(1)
 
-        self.driver.switch_to.window(self.driver.window_handles[0])
+            self.driver.switch_to.window(self.driver.window_handles[0])
+        except Exception:
+            print("External link not found. Probably you already applied")
+
+            self.driver.close()
+
+            sleep(1)
+
+            self.driver.switch_to.window(self.driver.window_handles[0])
